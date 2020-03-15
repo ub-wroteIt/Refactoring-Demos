@@ -4,41 +4,45 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-@AllArgsConstructor
+
 @Getter
-@Setter
 public class Movie {
     public static final int CHILDREN = 0;
     public static final int REGULAR = 1;
     public static final int NEW_RELEASE = 2;
 
     private String movieName;
-    private int priceCode;
+    private Price price;
 
-    double getCharge(int noOfDaysRented) {
-       double result = 0;
-       switch (getPriceCode()) {
-           case REGULAR:
-               result += 2;
-               if (noOfDaysRented > 2) {
-                   result += (noOfDaysRented - 2) * 1.5;
-               }
-               break;
-           case NEW_RELEASE:
-               result += noOfDaysRented * 3;
-               break;
-           case CHILDREN:
-               result += 1.5;
-               if (noOfDaysRented > 3)
-                   result += (noOfDaysRented - 3) * 1.5;
-               break;
-       }
-       return result;
-   }
+    public Movie(String movieName, int priceCode) {
+        this.movieName = movieName;
+        this.setPriceCode(priceCode);
+    }
+
+    public void setPriceCode(int priceCode) {
+        switch (priceCode){
+            case REGULAR:
+                price = new RegularPrice();
+                break;
+            case CHILDREN:
+                price = new ChildrenPrice();
+                break;
+            case NEW_RELEASE:
+                price = new NewReleasePrice();
+                break;
+            default:
+                throw new IllegalArgumentException("Incorrect Price Code");
+        }
+    }
+
+    double getCharge(int noOfDaysRented){
+        return price.getCharge(noOfDaysRented);
+    }
+
 
     int getFrequentRenterPoints(int noOfDaysRented) {
         //add bouns for two days new release rental
-        if (getPriceCode() == NEW_RELEASE && noOfDaysRented > 1) {
+        if (price.getPriceCode() == NEW_RELEASE && noOfDaysRented > 1) {
             return 2;
         }
         return 1;
