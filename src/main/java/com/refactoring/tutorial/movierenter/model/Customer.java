@@ -26,16 +26,12 @@ public class Customer {
         StringBuffer sb = new StringBuffer();
         sb.append("Rental Record For " + getName() + "\n");
         while (rentals.hasMoreElements()) {
-            double amount = 0;
             Rental each = (Rental) rentals.nextElement();
-
-            //Determining amount for each line
-            amount = getAmount(each);
             frequentRenterPoints += each.getFrequentRenterPoints();
 
             sb.append("\t").append(each.getMovie().getMovieName()).append("\t");
-            sb.append(amount + "\n");
-            totalAmount += amount;
+            sb.append(each.getCharge() + "\n");
+            totalAmount += each.getCharge();
         }
         //Generate footer line for Message
         sb.append("Amount owned is ").append(totalAmount).append("\n");
