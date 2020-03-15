@@ -11,4 +11,25 @@ import lombok.Getter;
 public class Rental {
     private Movie movie;
     private int noOfDaysRented;
+
+    public double getCharge() {
+        double amount = 0;
+        switch (getMovie().getPriceCode()) {
+            case Movie.REGULAR:
+                amount += 2;
+                if (getNoOfDaysRented() > 2) {
+                    amount += (getNoOfDaysRented() - 2) * 1.5;
+                }
+                break;
+            case Movie.NEW_RELEASE:
+                amount += getNoOfDaysRented() * 3;
+                break;
+            case Movie.CHILDREN:
+                amount += 1.5;
+                if (getNoOfDaysRented() > 3)
+                    amount += (getNoOfDaysRented() - 3) * 1.5;
+                break;
+        }
+        return amount;
+    }
 }
