@@ -13,7 +13,7 @@ public class Rental {
     private int noOfDaysRented;
 
     int getFrequentRenterPoints() {
-        return this.movie.getFrequentRenterPoints(noOfDaysRented);
+        return this.movie.price.getFrequentRenterPoints(noOfDaysRented);
     }
 
     double getCharge() {
