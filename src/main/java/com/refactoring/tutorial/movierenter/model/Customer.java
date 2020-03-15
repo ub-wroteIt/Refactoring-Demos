@@ -30,22 +30,7 @@ public class Customer {
             Rental each = (Rental) rentals.nextElement();
 
             //Determining amount for each line
-            switch (each.getMovie().getPriceCode()) {
-                case Movie.REGULAR:
-                    amount += 2;
-                    if (each.getNoOfDaysRented() > 2) {
-                        amount += (each.getNoOfDaysRented() - 2) * 1.5;
-                    }
-                    break;
-                case Movie.NEW_RELEASE:
-                    amount += each.getNoOfDaysRented() * 3;
-                    break;
-                case Movie.CHILDREN:
-                    amount += 1.5;
-                    if (each.getNoOfDaysRented() > 3)
-                        amount += (each.getNoOfDaysRented() - 3) * 1.5;
-                    break;
-            }
+            amount = getAmount(each);
 
             //add frequent renter points
             frequentRenterPoints++;
@@ -61,5 +46,26 @@ public class Customer {
         sb.append("Amount owned is ").append(totalAmount).append("\n");
         sb.append("You earned ").append(frequentRenterPoints).append(" frequent renter points");
         return sb.toString();
+    }
+
+    private double getAmount(Rental each) {
+        double amount = 0;
+        switch (each.getMovie().getPriceCode()) {
+            case Movie.REGULAR:
+                amount += 2;
+                if (each.getNoOfDaysRented() > 2) {
+                    amount += (each.getNoOfDaysRented() - 2) * 1.5;
+                }
+                break;
+            case Movie.NEW_RELEASE:
+                amount += each.getNoOfDaysRented() * 3;
+                break;
+            case Movie.CHILDREN:
+                amount += 1.5;
+                if (each.getNoOfDaysRented() > 3)
+                    amount += (each.getNoOfDaysRented() - 3) * 1.5;
+                break;
+        }
+        return amount;
     }
 }
